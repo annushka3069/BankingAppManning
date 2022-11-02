@@ -1,11 +1,5 @@
 package io.better.banking.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import io.better.banking.model.Transaction;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,17 +18,9 @@ class TransactionServiceTest {
   @Test
   void testFindAllByAccountNumber() {
 
-    var accountNumber="ab234";
+    var resultat = transactionService.findAllByAccountNumber(43215);
 
-    List<Transaction> nbTransactions = Arrays.asList(buildTransaction(accountNumber), buildTransaction(accountNumber), buildTransaction(accountNumber));
+    assert(resultat.size() > 0);
 
-    var resultat = transactionService.findAllByAccountNumber(accountNumber);
-
-    assertEquals(nbTransactions, resultat);
-
-  }
-
-  private Transaction buildTransaction(String accountNumber){
-    return new Transaction("bancaire", LocalDate.now(),accountNumber, "CAD", 12.0, "marchetau", "logovert");
   }
 }

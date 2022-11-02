@@ -1,20 +1,24 @@
 package io.better.banking.service;
 
 import io.better.banking.model.Transaction;
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionService {
 
-  public List<Transaction> findAllByAccountNumber(String accountNumber) {
-    return Arrays.asList(buildTransaction(accountNumber), buildTransaction(accountNumber), buildTransaction(accountNumber));
+  public List<Transaction> findAllByAccountNumber(final Integer accountNumber) {
+    return List.of(
+        Transaction
+            .builder()
+            .type("credit")
+            .date(new Date())
+            .accountNumber(accountNumber)
+            .currency("CAD")
+            .amount(1200.00)
+            .merchantName("Marche Tau")
+            .merchantLogo("logovert.png")
+            .build());
   }
-
-  private Transaction buildTransaction(String accountNumber){
-    return new Transaction("bancaire", LocalDate.now(),accountNumber, "CAD", 12.0, "marchetau", "logovert");
-  }
-
 }

@@ -1,14 +1,16 @@
 package io.better.banking.model;
 
-import java.time.LocalDate;
+import java.util.Date;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class Transaction {
 
   private final String type;
-  private final LocalDate date;
-  private final String accountNumber;
+  private final Date date;
+  private final Integer accountNumber;
   private final String currency;
   private final double amount;
   private final String merchantName;

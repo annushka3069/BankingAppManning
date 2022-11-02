@@ -19,7 +19,7 @@ public class TransactionController {
   private final TransactionService transactionService;
 
   @GetMapping("/{accountNumber}")
-  public ResponseEntity<List<Transaction>> findAllByAccountNumber(@PathVariable("accountNumber") String accountNumber) {
+  public ResponseEntity<List<Transaction>> findAllByAccountNumber(@PathVariable("accountNumber") final Integer accountNumber) {
     return new ResponseEntity<>(transactionService.findAllByAccountNumber(accountNumber), HttpStatus.OK);
   }
 

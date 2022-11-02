@@ -23,6 +23,8 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation group: 'io.rest-assured', name: 'spring-mock-mvc', version: '5.2.0'
+	testImplementation 'io.rest-assured:json-schema-validator:5.2.0'
 }
 
 tasks.named('test') {

@@ -1,4 +1,4 @@
-package io.better.banking.controller;
+package io.better.banking;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -12,17 +12,16 @@ import io.better.banking.model.Transaction;
 import io.better.banking.service.TransactionService;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(TransactionController.class)
-@ExtendWith(MockitoExtension.class)
-class TransactionControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+class TransactionControllerIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -32,13 +31,12 @@ class TransactionControllerTest {
 
   @Test
   void testFindAllByAccountNumber() throws Exception {
+    when(transactionService.findAllByAccountNumber(anyInt())).thenReturn(
+        List.of(Transaction.builder().build()));
 
-    when(transactionService.findAllByAccountNumber(anyInt())).thenReturn(List.of(Transaction.builder().build()));
-
-    mockMvc.perform(get("/transactions/123"))
+    mockMvc.perform(get("/transactions/456"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$", hasSize(1)));
   }
-
 }
