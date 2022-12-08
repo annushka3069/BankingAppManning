@@ -4,17 +4,18 @@ import java.util.Date;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(force=true)
+@Table(name = "transactions")
 public class Transaction {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private final Long id;
   private final String type;
   private final Date date;
