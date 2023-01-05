@@ -1,12 +1,12 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.4'
-	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.openapi.generator' version '6.2.1'
 	id 'java'
 }
 
 group = 'io.betterBanking'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
@@ -22,7 +22,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'mysql:mysql-connector-java:8.0.30'
-	implementation 'org.modelmapper:modelmapper:3.1.0'
+	implementation 'org.modelmapper:modelmapper:3.1.1'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.4'
+	implementation 'org.jetbrains:annotations:23.1.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -35,6 +38,33 @@ dependencies {
 
 }
 
+openApiGenerate {
+	generatorName = "spring"
+	generateModelDocumentation = false
+	generateApiDocumentation = false
+	inputSpec = "$rootDir/src/main/resources/open-api/account-info-openapi.yaml".toString()
+	outputDir = "$buildDir/generated".toString()
+	invokerPackage = "com.acme.banking.invoker"
+	modelPackage = "com.acme.banking.model"
+	apiPackage = "com.acme.banking.api"
+	configOptions = [
+			basePackage: "com.acme.banking",
+			interfaceOnly: "true",
+			useBeanValidation: "true"
+	]
+}
+
+task copyGeneratedModel(type: Copy) {
+	from "$buildDir/generated/src/main/java/com/acme/banking/model".toString()
+	into "$rootDir/src/main/java/com/acme/banking/model".toString()
+}
+
+task cleanUpGenerated(type: Delete) {
+	delete("$rootDir/src/main/java/com".toString())
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+clean.dependsOn cleanUpGenerated
