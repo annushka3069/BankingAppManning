@@ -10,7 +10,9 @@ import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest(classes = {BankingApplication.class})
 class TransactionComponentTest {
 
   @Mock
